@@ -1,9 +1,21 @@
+import Head from "next/head";
 import { MongoClient } from "mongodb"; //* You can import something for client side and server side code and according to where this something used will be included to client bundle or server bundle
 
 import MeetupList from "../components/meetups/MeetupList";
 
 function HomePage(props) {
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="dexcription"
+          content="Browse a huge list of highly active React meetups!"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />
+    </>
+  );
 }
 
 /** getStaticProps: is a function NextJs will looks for it and excute it during pre-rendering process before calling the component function (HomePage component function)
@@ -30,11 +42,11 @@ export async function getStaticProps() {
 
   return {
     props: {
-      meetups: meetups.map(meetup => ({
+      meetups: meetups.map((meetup) => ({
         title: meetup.title,
         address: meetup.address,
         image: meetup.image,
-        id: meetup._id.toString()
+        id: meetup._id.toString(),
       })),
     },
     /** use this property to unlock a feature called incremental static generation
